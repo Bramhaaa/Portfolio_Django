@@ -119,7 +119,7 @@ def process_input(user_input, chat_history):
     chat_history.append({"role": "user", "content": user_input})
     chat_history.append({"role": "assistant", "content": answer})
 
-    # Print the output
+    # Print the output for debugging
     print(f"User Input: {user_input}")
     print(f"Model Response: {answer}")
 

@@ -14,9 +14,10 @@ chat_history = []  # Store chat history for context
 def chatbot_view(request):
     if request.method == "OPTIONS":
         response = JsonResponse({"detail": "CORS preflight"})
-        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Origin"] = "http://localhost:3000"
         response["Access-Control-Allow-Methods"] = "POST, OPTIONS"
         response["Access-Control-Allow-Headers"] = "Content-Type"
+        response["Access-Control-Allow-Credentials"] = "true"
         return response
 
     if request.method == "POST":
@@ -30,9 +31,18 @@ def chatbot_view(request):
             # Process input and get the response
             answer = process_input(user_input, chat_history)
 
-            return JsonResponse({"response": answer})
+            response = JsonResponse({"response": answer})
+            response["Access-Control-Allow-Origin"] = "http://localhost:3000"
+            response["Access-Control-Allow-Credentials"] = "true"
+            return response
 
         except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
+            response = JsonResponse({"error": str(e)}, status=500)
+            response["Access-Control-Allow-Origin"] = "http://localhost:3000"
+            response["Access-Control-Allow-Credentials"] = "true"
+            return response
     
-    return JsonResponse({"error": "Invalid request method"}, status=405)
+    response = JsonResponse({"error": "Invalid request method"}, status=405)
+    response["Access-Control-Allow-Origin"] = "http://localhost:3000"
+    response["Access-Control-Allow-Credentials"] = "true"
+    return response
